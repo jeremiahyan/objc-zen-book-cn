@@ -134,7 +134,7 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 
 
-**部分译文表达可能存在不妥之处，非常欢迎各种修订建议和校队。 请直接 fork 本仓库，在 README.md 文件中修改，并申请 pull request 到 <https://github.com/oa414/objc-zen-book-cn/>。**
+**部分译文表达可能存在不妥之处，非常欢迎各种修订建议和校对。 请直接 fork 本仓库，在 README.md 文件中修改，并申请 pull request 到 <https://github.com/oa414/objc-zen-book-cn/>。**
 
 
 #  条件语句
@@ -328,7 +328,7 @@ result = object ? object : [self createObject];
 
 ## 错误处理
 
-有些方法通通过参数返回 error 的引用，使用这样的方法时应当检查方法的返回值，而非 error 的引用。
+有些方法通过参数返回 error 的引用，使用这样的方法时应当检查方法的返回值，而非 error 的引用。
 
 **推荐:**
 ```objective-c
@@ -405,7 +405,7 @@ switch (menuType) {
 ### 枚举类型
 
 
-当使用 `enum` 的时候，建议使用新的固定的基础类型定义，因它有更强大的的类型检查和代码补全。 SDK 现在有一个 宏来鼓励和促进使用固定类型定义 - `NS_ENUM()`
+当使用 `enum` 的时候，建议使用新的固定的基础类型定义，因为它有更强大的类型检查和代码补全。 SDK 现在有一个 宏来鼓励和促进使用固定类型定义 - `NS_ENUM()`
 
 **例子:**
 
@@ -541,7 +541,7 @@ NSMutableArray *aMutableArray = [@[] mutableCopy];
 
 ##  类名
 
-类名应该以**三**个大写字母作为前缀（双字母前缀为 Apple 的类预留）。尽管这个规范看起来有些古怪，但是这样做可以减少 Objective-c 没有命名空间所带来的问题。
+类名应该以**三**个大写字母作为前缀（双字母前缀为 Apple 的类预留）。尽管这个规范看起来有些古怪，但是这样做可以减少 Objective-C 没有命名空间所带来的问题。
 
 一些开发者在定义模型对象时并不遵循这个规范（对于 Core Data 对象，我们更应该遵循这个规范）。我们建议在定义 Core Data 对象时严格遵循这个约定，因为最终你可能需要把你的 Managed Object Model（托管对象模型）与其他（第三方库）的 MOMs（Managed Object Model）合并。
 
@@ -631,14 +631,14 @@ designated 初始化方法是提供所有的参数，secondary 初始化方法�
 #### Designated Initializer 
 
 
-一个类应该又且只有一个 designated 初始化方法，其他的初始化方法应该调用这个 designated 的初始化方法（虽然这个情况有一个例外）
+一个类应该有且只有一个 designated 初始化方法，其他的初始化方法应该调用这个 designated 的初始化方法（虽然这个情况有一个例外）
 
 这个分歧没有要求那个初始化函数需要被调用。
 
 
-在类继承中调用任何 designated 初始化方法都是合法的，而且应该保证 *所有的* designated initializer 在类继承中是是从祖先（通常是  `NSObject`）到你的类向下调用的。
+在类继承中调用任何 designated 初始化方法都是合法的，而且应该保证 *所有的* designated initializer 在类继承中是从祖先（通常是  `NSObject`）到你的类向下调用的。
 
-实际上这意味着第一个执行的初始化代码是最远的祖先，然后从顶向下的类继承，所有类都有机会执行他们特定的初始化代码。这样，你在你做你的特定的初始化工作前，所有你从超类继承的东西是不可用的状态。即使它的状态不明确，所有 Apple 的框架的 Framework 是保证遵守这个约定的，而且你的类也应该这样做。
+实际上这意味着第一个执行的初始化代码是最远的祖先，然后从顶向下的类继承，所有类都有机会执行他们特定初始化代码。这样，你在做特定初始化工作前，所有从超类继承的东西都是不可用的状态。 虽然这没有明确的规定，但是所有 Apple 的框架都保证遵守这个约定，你的类也应该这样做。
 
 
 当定义一个新类的时候有三个不同的方式：
@@ -650,9 +650,9 @@ designated 初始化方法是提供所有的参数，secondary 初始化方法�
 
 第一个方案是最简单的：你不需要增加类的任何初始化逻辑，只需要依照父类的designated initializer。
 
-当你希望提供额外的初始化逻辑的时候，你可以重载 designated initializer。你只需要重载你的直接的超类的 designated initializer 并且确认你的实现调用了超类的方法。
+当你希望提供额外的初始化逻辑的时候，你可以重载 designated initializer。你只需要重载直接超类的 designated initializer 并且确认你的实现调用了超类的方法。
 
-你一个典型的例子是你创造`UIViewController`子类的时候重载`initWithNibName:bundle:`方法。
+一个典型的例子是你创造`UIViewController`子类的时候重载`initWithNibName:bundle:`方法。
 
 ```objective-c
 @implementation ZOCViewController
@@ -670,10 +670,10 @@ designated 初始化方法是提供所有的参数，secondary 初始化方法�
 @end
 ```
 
-在 `UIViewController`  子类的例子里面如果重载  `init` 会是一个错误，这个情况下调用者会尝试调用 `initWithNib:bundle` 初始化你的类，你的类实现不会被调用。着同样违背了它应该是合法调用任何 designated initializer 的规则。
+在 `UIViewController`  子类的例子里面如果重载  `init` 会是一个错误，这个情况下调用者会尝试调用 `initWithNib:bundle` 初始化你的类，你的类实现不会被调用。这同样违背了它应该是合法调用任何 designated initializer 的规则。
 
 
-在你希望提供你自己的初始化函数的时候，你应该遵守这三个步骤来保证正确的性：
+在你希望提供你自己的初始化函数的时候，你应该遵守这三个步骤来保证获得正确的行为：
 
 
 1. 定义你的 designated initializer，确保调用了直接超类的 designated initializer。
@@ -681,7 +681,7 @@ designated 初始化方法是提供所有的参数，secondary 初始化方法�
 3. 为新的 designated initializer 写文档。
 
 
-很多开发者忽略了后两步，这不仅仅是一个粗心的问题，而且这样违反了框架的规则，而且可能导致不确定的行为和bug。
+很多开发者忽略了后两步，这不仅仅是一个粗心的问题，而且这样违反了框架的规则，可能导致不确定的行为和bug。
 让我们看看正确的实现的例子：
 
 ```objective-c
@@ -708,16 +708,16 @@ designated 初始化方法是提供所有的参数，secondary 初始化方法�
 ```
 
 
-如果你没重载 `initWithNibName:bundle:` ，而且调用者决定用这个方法初始化你的类(这是完全合法的)。 `initWithNews:` 永远不会被调用，所以导致了不正确的初始化流程，你的类特定的初始化逻辑没有被执行。
+如果你没重载 `initWithNibName:bundle:` ，而且调用者决定用这个方法初始化你的类(这是完全合法的)。 `initWithNews:` 永远不会被调用，所以导致了不正确的初始化流程，你的类的特定初始化逻辑没有被执行。
 
 
 
 
-即使可以推断那个方法是 designate initializer，也最好清晰地明确它（未来的你或者其他开发者在改代码的时候会感谢你的）。
+即使可以推断那个方法是 designated initializer，也最好清晰地明确它（未来的你或者其他开发者在改代码的时候会感谢你的）。
 
 你应该考虑来用这两个策略（不是互斥的）：第一个是你在文档中明确哪一个初始化方法是 designated 的，你可以用编译器的指令 `__attribute__((objc_designated_initializer))`  来标记你的意图。
 
-用这个编译指令的时候，编译器会来帮你。如果你的新的 designate initializer 没有调用你超类的 designated initializer，那么编译器会发出警告。
+用这个编译指令的时候，编译器会来帮你。如果你的新的 designated initializer 没有调用超类的 designated initializer，那么编译器会发出警告。
 
 然而，当没有调用类的  designated initializer 的时候（并且依次提供必要的参数），并且调用其他父类中的 designated initialize 的时候，会变成一个不可用的状态。参考之前的例子，当实例化一个 `ZOCNewsViewController`  展示一个新闻而那条新闻没有展示的话，就会毫无意义。这个情况下你应该只需要让其他的 designated initializer 失效，来强制调用一个非常特别的 designated initializer。通过使用另外一个编译器指令  `__attribute__((unavailable("Invoke the designated initializer"))) ` 来修饰一个方法，通过这个属性，会让你在试图调用这个方法的时候产生一个编译错误。
 
@@ -741,11 +741,11 @@ designated 初始化方法是提供所有的参数，secondary 初始化方法�
 
 不过一个例外是一个对象是否遵守 `NSCoding` 协议，并且它通过方法 `initWithCoder:` 初始化。
 我们应该看超类是否符合 `NSCoding` 协议来区别对待。
-如果符合，如果你只是调用 `[super initWithCoder:]` ，你会可能有一个共享的初始化代码在 designated initializer 里面，一个好的方法是把这些代码放在私有方法里面(比如  `p_commonInit` )。
-当你的超类不符合`NSCoding` 协议的时候，推荐把 `initWithCoder:` 作为 secondary initializer 来对待，并且调用 `self` 的 designated initializer。 注意这是违反 Apple 的 [Archives and Serializations Programming Guide](https://developer.apple.com/library/mac/documentation/cocoa/Conceptual/Archiving/Articles/codingobjects.html#//apple_ref/doc/uid/20000948-BCIHBJDE)  上面写的：
+符合的时候，如果你只是调用 `[super initWithCoder:]` ，你可能需要在 designated initializer 里面写一些通用的初始化代码，处理这种情况的一个好方法是把这些代码放在私有方法里面(比如  `p_commonInit` )。
+当你的超类不符合 `NSCoding` 协议的时候，推荐把 `initWithCoder:` 作为 secondary initializer 来对待，并且调用 `self` 的 designated initializer。 注意这违反了 Apple 写在 [Archives and Serializations Programming Guide](https://developer.apple.com/library/mac/documentation/cocoa/Conceptual/Archiving/Articles/codingobjects.html#//apple_ref/doc/uid/20000948-BCIHBJDE)  上面的规定：
 
 
-> the object should first invoke its superclass's designated initializer to initialize inherited state （对象总是应该首先调用超类的 designated initializer  来初始化继承的状态）
+> the object should first invoke its superclass's designated initializer to initialize inherited state（对象总是应该首先调用超类的 designated initializer 来初始化继承的状态）
 
 
 如果你的类不是  `NSObject` 的直接子类，这样做的话，会导致不可预测的行为。
@@ -956,12 +956,12 @@ NSString * text;
 - 更简单的debug（比如，允许拿出一个断点在 getter 方法里面，并且看谁访问了特别的 getter
 - 它让意图更加清晰和明确：通过访问 ivar `_anIvar` 你可以明确的访问 `self->_anIvar`.这可能导致问题。在 block 里面访问 ivar （你捕捉并且 retain 了 self，即使你没有明确的看到 self 关键词）。
 - 它自动产生KVO 通知。
-- 在消息发送的时候增加的开销是微不足道的。更多关于新年问题的介绍你可以看 [Should I Use a Property or an Instance Variable?](http://blog.bignerdranch.com/4005-should-i-use-a-property-or-an-instance-variable/)。
+- 在消息发送的时候增加的开销是微不足道的。更多关于性能问题的介绍你可以看 [Should I Use a Property or an Instance Variable?](http://blog.bignerdranch.com/4005-should-i-use-a-property-or-an-instance-variable/)。
 
 #### Init 和 Dealloc
 
 
-有一个例外：你永远不能在 init （以及其他初始化函数）里面用 getter 和 setter 方法，并且你直接访问实例变量。事实上一个子类可以重载 setter 或者 getter 并且尝试调用其他方法，访问属性的或者 ivar 的话，他们可能没有完全初始化。记住一个对象是仅仅在 init 返回的时候，才会被认为是初始化完成到一个状态了。
+有一个例外：永远不要在 init 方法（以及其他初始化方法）里面用 getter 和 setter 方法，你应当直接访问实例变量。这样做是为了防止有子类时，出现这样的情况：它的子类最终重载了其 setter 或者 getter 方法，因此导致该子类去调用其他的方法、访问那些处于不稳定状态，或者称为没有初始化完成的属性或者 ivar 。记住一个对象仅仅在 init 返回的时候，才会被认为是达到了初始化完成的状态。
 
 同样在 dealloc 方法中（在 dealloc 方法中，一个对象可以在一个 不确定的状态中）这是同样需要被注意的。
 
@@ -1042,7 +1042,7 @@ UIApplication.sharedApplication.delegate;
 #### 私有属性
 
 
-私有属性应该定义在类的实现文件的类的扩展 (class extensions) 中。不允许在有名字的的 category(如 `ZOCPrivate`）中定义私有属性，除非你扩展其他类。
+私有属性应该定义在类的实现文件的类的扩展 (匿名的 category) 中。不允许在有名字的 category(如 `ZOCPrivate`）中定义私有属性，除非你扩展其他类。
 
 **例子:**
 
@@ -1055,7 +1055,7 @@ UIApplication.sharedApplication.delegate;
 ### 可变对象
 
 
-任何可以用来用一个可变的对象设置的（(比如 `NSString`,`NSArray`,`NSURLRequest`)）属性的的内存管理类型必须是 `copy` 的。
+任何可以用一个可变的对象设置的（(比如 `NSString`,`NSArray`,`NSURLRequest`)）属性的内存管理类型必须是 `copy` 的。
 
 这是为了确保防止在不明确的情况下修改被封装好的对象的值(译者注：比如执行 array(定义为 copy 的 NSArray 实例) = mutableArray，copy 属性会让 array 的 setter 方法为 array = [mutableArray copy], [mutableArray copy] 返回的是不可变的 NSArray 实例，就保证了正确性。用其他属性修饰符修饰，容易在直接赋值的时候，array 指向的是 NSMuatbleArray 的实例，在之后可以随意改变它的值，就容易出错)。
 
@@ -1108,7 +1108,7 @@ UIApplication.sharedApplication.delegate;
 ### 参数断言
 
 
-你的方法可能要求一些参数来满足特定的条件（比如不能为nil），在这种情况下啊最好使用 `NSParameterAssert()` 来断言条件是否成立或是抛出一个异常。
+你的方法可能要求一些参数来满足特定的条件（比如不能为nil），在这种情况下最好使用 `NSParameterAssert()` 来断言条件是否成立或是抛出一个异常。
 
 ###  私有方法
 
@@ -1119,7 +1119,7 @@ UIApplication.sharedApplication.delegate;
 
 当你要实现相等性的时候记住这个约定：你需要同时实现`isEqual` 和 `hash`方法。如果两个对象是被`isEqual`认为相等的，它们的 `hash` 方法需要返回一样的值。但是如果  `hash` 返回一样的值，并不能确保他们相等。
 
-这个约定是因为当被存储在集合（如 `NSDictionary` 和 `NSSet` 在底层使用 hash 表数据的数据结构）的时候，如何查找这些对象。
+这个约定当对象被存储在集合中（如 `NSDictionary` 和 `NSSet` 在底层使用 hash 表数据的数据结构）的时候，用来查找这些对象的。
 
 ```objective-c
 @implementation ZOCPerson
@@ -1182,7 +1182,12 @@ UIApplication.sharedApplication.delegate;
   return haveEqualNames && haveEqualBirthdays;
 }
 ```
-
+> 译者注：
+> 一般而言我们会直接调用自定义的`isEqualTo__ClassName__:`方法，对类的实例判等。
+> 
+> 像相等性的开篇已经提到的那样，这里应该复写`isEqual:`方法，因为NSObject的`isEqual:`方法显然不会考虑我们自定义类的类型判断及属性的相等性。当我们自定义的类的对象处在无序集合中被查找时，会自动调用`isEqual:`。同样的该类的`hash`方法，也会在集合查找对象的时候被使用，我们也可以通过复写`hash`方法以达到用自己的标准来判定对象是否`hash`等同。
+> 
+> 我们实现的`hash`方法应该建立在系统提供的各种对象的`hash`方法之上（像开篇的例程那样）。不推荐自己去实现某种`hash`算法来替代系统提供的`hash`算法，这一般而言会大大影响性能或者准确性，系统提供的`hash`算法已经经过无数次修缮，足以满足你的要求。
 
 一个对象实例的 `hash` 计算结果应该是确定的。当它被加入到一个容器对象（比如 `NSArray`, `NSSet`, 或者 `NSDictionary`）的时候这是很重要的，否则行为会无法预测（所有的容器对象使用对象的 hash 来查找或者实施特别的行为，如确定唯一性）这也就是说，应该用不可变的属性来计算 hash 值，或者，最好保证对象是不可变的。
 
@@ -1395,13 +1400,13 @@ view controller 的职责应该是“显示某些东西提供的内容”，但�
 - `ZOCViewController` （UI逻辑部分）可以被复用
 - 测试更简单了，因为可以用 mock 对象来达到 protocol 预期的效果
 
-当实现一个 protocol 你总应该坚持 [里氏替换原则](http://en.wikipedia.org/wiki/Liskov_substitution_principle)。这个原则是：你应该可以取代任意接口（也就是Objective-C里的的"protocol"）实现，而不用改变客户端或者相关实现。
+当实现一个 protocol 你总应该坚持 [里氏替换原则](http://en.wikipedia.org/wiki/Liskov_substitution_principle)。这个原则是：你应该可以取代任意接口（也就是Objective-C里的"protocol"）实现，而不用改变客户端或者相关实现。
 
 此外，这也意味着`protocol`不该关心类的实现细节；设计protocol的抽象表述时应非常用心，并且要牢记它和它背后的实现是不相干的，真正重要的是协议（这个暴露给使用者的抽象表述）。
 
 任何在未来可复用的设计，无形当中可以提高代码质量，这也应该一直是程序员的追求。是否这样设计代码，就是大师和菜鸟的区别。
 
-最后的代码可以在[这里](http://github.com/albertodebortoli/ADBFeedReader) 找到。
+最后的代码可以在[这里](https://github.com/KevinHM/ADBFeedReader) 找到。
 
 
 
@@ -1807,9 +1812,9 @@ Block 是 Objective-C 版本的 lambda 或者 closure（闭包）。
 (下面代码是译者加的)
 
 ```objective-c
-   ...
-   CGFloat blockInt = 10;
-   void (^playblock)(void) = ^{
+    ...
+    CGFloat blockInt = 10;
+    void (^playblock)(void) = ^{
         NSLog(@"blockInt = %zd", blockInt);
     };
     blockInt ++;
